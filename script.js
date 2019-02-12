@@ -23,7 +23,7 @@ const getCharacters = async() => {
   }
 };
 
-const displayCharacters = async() => {
+const addFieldsFromAPI = async() => {
   let charArray = await getCharacters();
   let myDiv = document.querySelector("#container");
 
@@ -32,14 +32,29 @@ const displayCharacters = async() => {
     let name = document.createElement("h5");
     let shortDescription = document.createElement("p");
     let image = new Image(100, 100);
+      //add button for editing
+    let editButton = document.createElement("button");
 
     card.setAttribute("class", "card");
     name.setAttribute("class", "name");
     name.setAttribute("data-toggle", "modal");
     name.setAttribute("data-target", "#displayModal");
+    editButton.setAttribute("type", "button");
+    editButton.setAttribute("class", "editButton");
+    editButton.setAttribute("data-toggle", "modal");
+    editButton.setAttribute("data-target", "#editModal");
+    editButton.classList.add("btn");
+    editButton.classList.add("btn-primary");
+    editButton.innerText = "Edit Character";
+
+
     name.addEventListener("click", function () {
       displayModalContent(charArray[i]);
     });
+
+    editButton.addEventListener("click", function () {
+      editCharacters(charArray[i]);
+    })
     shortDescription.setAttribute("class", "shortDescript");
     image.setAttribute("class", "image");
 
@@ -50,10 +65,12 @@ const displayCharacters = async() => {
     card.appendChild(name);
     card.appendChild(shortDescription);
 
+
     if(charArray[i].image) {
       image.src = "data:image/jpeg;base64," + charArray[i].image;
       card.appendChild(image);
     }
+    card.appendChild(editButton);
   }
 };
 
@@ -77,7 +94,6 @@ const displayModalContent = (arrayElement) => {
   shortDescription.innerText = arrayElement.shortDescription;
   description.innerHTML = markdown.toHTML(arrayElement.description);
 
-
   if(arrayElement.image) {
     image.src = "data:image/jpeg;base64," + arrayElement.image;
     displayContent.appendChild(image);
@@ -88,16 +104,35 @@ const displayModalContent = (arrayElement) => {
   displayContent.appendChild(image);
 };
 
+//Create a new edit modal
+const editCharacters = (arrayElement) => {
+  let editDiv = document.querySelector("#editContent");
+  let characterName = document.querySelector("#editName");
+  let charShortDescription = document.querySelector("#editShortDescription");
+  let charDescription = document.querySelector("#editDescription");
+  characterName.value = arrayElement.name;
+  charShortDescription.value = arrayElement.shortDescription;
+  charDescription.value = arrayElement.description;
+};
+
+//posts edits from edit modal DOES NOT DO ANYTHING YET FIGURE IT OUT
+const postEdits = () => {
+  let newName = document.querySelector("#editName").value;
+  let newCharShortDescription = document.querySelector("#editShortDescription").value;
+  let newCharDescription = document.querySelector("#editDescription").value;
+
+  let newCharacterObject = {
+    name: newName,
+    shortDescription: newCharShortDescription,
+    description: newCharDescription
+  };
+}
 
 //Create a new character modal
-const PostcreatorModal = async () => {
-  let form = document.querySelector("#creationForm");
-  let creationModal = document.querySelector("#charCreationModal");
-  let creaTion = document.querySelector("#characterCard");
+const postCreatorModal = async () => {
   let characterName = document.querySelector("#addName").value;
   let charShortDescription = document.querySelector("#addShortDescription").value;
   let charDescription = document.querySelector("#addDescription").value;
-
   let newCharacter = {
     name: characterName,
     shortDescription: charShortDescription,
@@ -111,8 +146,16 @@ const PostcreatorModal = async () => {
   window.location.reload();
 };
 
-displayCharacters();
+addFieldsFromAPI();
 
+//Add event when you click on submit button of creator modal
 document.querySelector("#creationButton").addEventListener("click", function() {
-  PostcreatorModal();
+  postCreatorModal();
+});
+
+//add cleaning of creator modal fields when simply clicking close
+document.querySelector("#closeCreator").addEventListener("click", function() {
+  document.querySelector("#addName").value = "";
+  document.querySelector("#addShortDescription").value = "";
+  document.querySelector("#addDescription").value = "";
 });
