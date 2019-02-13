@@ -9,6 +9,7 @@ import 'bootstrap';
   Put the JavaScript code you want below.
 */
 
+// T'étais dans la modale Delete
 import axios from "axios";
 import {markdown} from "markdown";
 
@@ -65,6 +66,10 @@ const addFieldsFromAPI = async() => {
 
     editButton.addEventListener("click", function () {
       editCharacters(charArray[i]);
+    })
+
+    deleteButton.addEventListener("click", function () {
+      populateDeleteModal(charArray[i]);
     })
 
     shortDescription.setAttribute("class", "shortDescript");
@@ -175,7 +180,13 @@ const postCreatorModal = async () => {
   window.location.reload();
 };
 
-const deleteCharacter = async () => {
+const populateDeleteModal = characterObject => {
+  let contentDiv = document.querySelector(".deleteModalContent");
+  let idParagraph = document.createElement("p");
+  idParagraph.setAttribute("id", "idToDelete");
+  idParagraph.value = characterObject.id;
+  idParagraph.style.display = "none";
+  contentDiv.appendChild(idParagraph);
 
 }
 
