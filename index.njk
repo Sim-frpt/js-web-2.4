@@ -74,18 +74,34 @@
             </div>
             <div class="modal-body">
               <div id="editContent">
-                <form action="" id="editForm">
-                  Name of your character: <input type="text" name="editName" id="editName"> <br>
-                  <label for="editShortDescription">Short description:</label>
-                  <textarea rows="3" cols="20" id="editShortDescription"></textarea> <br>
-                  <label for="editDescription">Description:</label>
-                  <textarea rows="3" cols="20" id="editDescription"></textarea> <br>
-                </form>
+                Name of your character: <input type="text" name="editName" id="editName"> <br>
+                <label for="editShortDescription">Short description:</label>
+                <textarea rows="3" cols="20" id="editShortDescription"></textarea> <br>
+                <label for="editDescription">Description:</label>
+                <textarea rows="3" cols="20" id="editDescription"></textarea> <br>
+                <label for="editImage">Image:</label>
+                <input type="file" name="editImage" id="editImage">
+                <output></output>
+                <p id="characterId"></p>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Edit character</button>
+              <button type="button" class="btn btn-primary" id="publishEdits" data-dismiss="modal">Edit character</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- delete modal -->
+      <div class="modal fade bd-example-modal-sm" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body">
+              <p>Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+              <button type="button" class="btn btn-secondary" id="deleteCharacter" data-dismiss="modal">Yes</button>
             </div>
           </div>
         </div>
